@@ -1,8 +1,11 @@
 
-public class Philosopher {
+public class Philosopher implements Runnable {
 
-	public Philosopher() {
-		System.out.println("Philosopher created");
+	private int id;
+	
+	public Philosopher(int id) {
+		this.id = id;
+		System.out.println("Philosopher " + id + " created");
 	}
 	
 	public void checkLeft() {
@@ -19,6 +22,11 @@ public class Philosopher {
 	
 	public void getRight() {
 		
+	}
+
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
 	}
 	
 }

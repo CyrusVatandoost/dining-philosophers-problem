@@ -10,36 +10,63 @@ public class Philosopher extends Thread {
 	public Chopstick leftChopstick;
 	public Chopstick rightChopstick;
 	private int status;
+	private Waiter waiter;
 	
-	public Philosopher(int num, Chopstick left, Chopstick right) {
-		number = num;
-		leftChopstick = left;
-		rightChopstick = right;
+	public Philosopher(int num, Chopstick left, Chopstick right, Waiter waiter) {
+		this.number = num;
+		this.leftChopstick = left;
+		this.rightChopstick = right;
+		this.waiter = waiter;
 	}
 	
 	public void run() {
 		System.out.println("Hi! I'm philosopher #" + number);
 		
 		while(true) {
-			status = WAITING;
-			leftChopstick.grab();
-			System.out.println("Philosopher #" + number + " grabs left chopstick.");
-			rightChopstick.grab();
-			System.out.println("Philosopher #" + number + " grabs right chopstick.");
-			status = EATING;
-			eat();
-			leftChopstick.release();
-			System.out.println("Philosopher #" + number + " releases left chopstick.");
-			rightChopstick.release();
-			System.out.println("Philosopher #" + number + " releases right chopstick.");
+//			status = WAITING;
 			status = THINKING;
+			
+			waiter.call();
+			if(waiter.isAllowed(leftChopstick.isFree(), rightChopstick.isFree())) {
+				leftChopstick.grab();
+//				System.out.println("Philosopher #" + number + " grabs left chopstick.");
+				rightChopstick.grab();
+//				System.out.println("Philosopher #" + number + " grabs right chopstick.");
+				status = EATING;
+				eat();
+				status = THINKING;
+				leftChopstick.release();
+//				System.out.println("Philosopher #" + number + " releases left chopstick.");
+				rightChopstick.release();
+//				System.out.println("Philosopher #" + number + " releases right chopstick.");
+			}
+			waiter.release();	
+			
+//			waiter.call();
+//			if(waiter.isAllowed(leftChopstick.isFree(), rightChopstick.isFree())) {
+//				leftChopstick.grab();
+//				rightChopstick.grab();
+////				System.out.println("Philosopher #" + number + " grabs left chopstick.");
+////				System.out.println("Philosopher #" + number + " grabs right chopstick.");
+//				status = EATING;
+//				waiter.release();
+//				eat();
+//				leftChopstick.release();
+////				System.out.println("Philosopher #" + number + " releases left chopstick.");
+//				rightChopstick.release();
+////				System.out.println("Philosopher #" + number + " releases right chopstick.");
+//				status = THINKING;
+//			}
+//			else {
+//				waiter.release();
+//			}
 		}
 	}
 	
 	public void eat() {
 		try {
 			int sleepTime = ThreadLocalRandom.current().nextInt(0, 2000);
-			System.out.println("Philosopher #" + number + " eats for " + sleepTime);
+//			System.out.println("Philosopher #" + number + " eats for " + sleepTime);
 			Thread.sleep(sleepTime);
 		}
 		catch (Exception e) {

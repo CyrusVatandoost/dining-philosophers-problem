@@ -1,10 +1,17 @@
 import java.util.concurrent.Semaphore;
 
-public class Chopstick {
-
-	private Semaphore mutex = new Semaphore(1);
+public class Waiter {
 	
-	public void grab() {
+	private Semaphore mutex = new Semaphore(1);
+
+	public boolean isAllowed(boolean left, boolean right) {
+		if(left && right) {
+			return true;
+		}
+		return false;
+	}
+	
+	public void call() {
 		try {
 			mutex.acquire();
 		}

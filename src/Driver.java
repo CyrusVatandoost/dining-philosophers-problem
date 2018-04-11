@@ -2,25 +2,42 @@ public class Driver {
 
 	public static void main(String argv[]) {
 
-		int philosophersNumber = 10;
+		int philosophersNumber = 20;
 		Philosopher philosophers[] = new Philosopher[philosophersNumber];
-		Chopstick forks[] = new Chopstick[philosophersNumber];
-				  
+		Chopstick chopsticks[] = new Chopstick[philosophersNumber];
+		Waiter waiter = new Waiter();
+		
 		System.out.println("Dining philosophers problem.");
 			
 		for(int i = 0; i < philosophersNumber; i++) {
-			forks[i] = new Chopstick();
+			chopsticks[i] = new Chopstick();
 		}
 			
 		for(int i = 0; i < philosophersNumber; i++) {
-			philosophers[i] = new Philosopher(i, forks[i], forks[(i + 1) % philosophersNumber]);
+			philosophers[i] = new Philosopher(i, chopsticks[i], chopsticks[(i + 1) % philosophersNumber], waiter);
 			philosophers[i].start();
 		}
 			
 		while(true) {
 			
 			System.out.println();
+			
+			int index = 0;
 			for(Philosopher p : philosophers) {
+
+				if(chopsticks[index].isFree()) {
+					System.out.print(" ^ ");
+				}
+				else {
+					System.out.print(" . ");
+				}
+				
+				index++;
+				
+				if(index >= philosophersNumber) {
+					index = 0;
+				}
+				
 				if(p.isEating())
 					System.out.print("E");
 				if(p.isThinking())
@@ -29,6 +46,7 @@ public class Driver {
 					System.out.print("W");
 			}
 			System.out.println();
+			System.out.println();
 			
 			try {
 				// sleep 1 sec
@@ -36,7 +54,7 @@ public class Driver {
 				
 				// check for deadlock
 				boolean deadlock = true;
-				for(Chopstick f : forks) {
+				for(Chopstick f : chopsticks) {
 					if(f.isFree()) {
 						deadlock = false;
 						break;

@@ -2,7 +2,7 @@ public class Driver {
 
 	public static void main(String argv[]) {
 
-		int philosophersNumber = 20;
+		int philosophersNumber = 19;
 		Philosopher philosophers[] = new Philosopher[philosophersNumber];
 		Chopstick chopsticks[] = new Chopstick[philosophersNumber];
 		Waiter waiter = new Waiter();
@@ -20,7 +20,7 @@ public class Driver {
 			
 		while(true) {
 			
-			System.out.println();
+//			System.out.println();
 			
 			int index = 0;
 			for(Philosopher p : philosophers) {
@@ -46,7 +46,7 @@ public class Driver {
 					System.out.print("W");
 			}
 			System.out.println();
-			System.out.println();
+//			System.out.println();
 			
 			try {
 				// sleep 1 sec

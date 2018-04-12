@@ -26,21 +26,25 @@ public class Philosopher extends Thread {
 //			status = WAITING;
 			status = THINKING;
 			
-			waiter.call();
-			if(waiter.isAllowed(leftChopstick.isFree(), rightChopstick.isFree())) {
-				leftChopstick.grab();
-//				System.out.println("Philosopher #" + number + " grabs left chopstick.");
-				rightChopstick.grab();
-//				System.out.println("Philosopher #" + number + " grabs right chopstick.");
-				status = EATING;
-				eat();
-				status = THINKING;
-				leftChopstick.release();
-//				System.out.println("Philosopher #" + number + " releases left chopstick.");
-				rightChopstick.release();
-//				System.out.println("Philosopher #" + number + " releases right chopstick.");
+			if(waiter.isFree()) {
+				waiter.call();
+				if(waiter.isAllowed(leftChopstick.isFree(), rightChopstick.isFree())) {
+					leftChopstick.grab();
+//					System.out.println("Philosopher #" + number + " grabs left chopstick.");
+					rightChopstick.grab();
+					waiter.release();	
+//					System.out.println("Philosopher #" + number + " grabs right chopstick.");
+					status = EATING;
+					eat();
+					status = THINKING;
+					leftChopstick.release();
+//					System.out.println("Philosopher #" + number + " releases left chopstick.");
+					rightChopstick.release();
+//					System.out.println("Philosopher #" + number + " releases right chopstick.");
+				}
+				else
+					waiter.release();	
 			}
-			waiter.release();	
 			
 //			waiter.call();
 //			if(waiter.isAllowed(leftChopstick.isFree(), rightChopstick.isFree())) {
@@ -65,7 +69,7 @@ public class Philosopher extends Thread {
 	
 	public void eat() {
 		try {
-			int sleepTime = ThreadLocalRandom.current().nextInt(0, 2000);
+			int sleepTime = ThreadLocalRandom.current().nextInt(0, 500);
 //			System.out.println("Philosopher #" + number + " eats for " + sleepTime);
 			Thread.sleep(sleepTime);
 		}

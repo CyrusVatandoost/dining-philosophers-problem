@@ -2,7 +2,7 @@ public class Driver {
 
 	public static void main(String argv[]) {
 
-		int philosophersNumber = 19;
+		int philosophersNumber = 6;
 		Philosopher philosophers[] = new Philosopher[philosophersNumber];
 		Chopstick chopsticks[] = new Chopstick[philosophersNumber];
 		Waiter waiter = new Waiter();
@@ -14,8 +14,15 @@ public class Driver {
 		}
 			
 		for(int i = 0; i < philosophersNumber; i++) {
-			philosophers[i] = new Philosopher(i, chopsticks[i], chopsticks[(i + 1) % philosophersNumber], waiter);
-			philosophers[i].start();
+			if(i == philosophersNumber - 1)
+				philosophers[i] = new Philosopher(i, chopsticks[i], chopsticks[0], waiter);
+			else
+				philosophers[i] = new Philosopher(i, chopsticks[i], chopsticks[(i + 1)], waiter);
+//			philosophers[i].start();
+		}
+		
+		for(Philosopher p : philosophers) {
+			p.start();
 		}
 			
 		while(true) {

@@ -29,48 +29,30 @@ public class Philosopher extends Thread {
 			if(waiter.isFree()) {
 				waiter.call();
 				if(waiter.isAllowed(leftChopstick.isFree(), rightChopstick.isFree())) {
+					System.out.println("Philosopher #" + number + " is allowed to grab chopsticks.");
 					leftChopstick.grab();
-//					System.out.println("Philosopher #" + number + " grabs left chopstick.");
+					System.out.println("Philosopher #" + number + " grabs left chopstick.");
 					rightChopstick.grab();
 					waiter.release();	
-//					System.out.println("Philosopher #" + number + " grabs right chopstick.");
+					System.out.println("Philosopher #" + number + " grabs right chopstick.");
 					status = EATING;
 					eat();
 					status = THINKING;
 					leftChopstick.release();
-//					System.out.println("Philosopher #" + number + " releases left chopstick.");
+					System.out.println("Philosopher #" + number + " releases left chopstick.");
 					rightChopstick.release();
-//					System.out.println("Philosopher #" + number + " releases right chopstick.");
+					System.out.println("Philosopher #" + number + " releases right chopstick.");
 				}
 				else
 					waiter.release();	
 			}
-			
-//			waiter.call();
-//			if(waiter.isAllowed(leftChopstick.isFree(), rightChopstick.isFree())) {
-//				leftChopstick.grab();
-//				rightChopstick.grab();
-////				System.out.println("Philosopher #" + number + " grabs left chopstick.");
-////				System.out.println("Philosopher #" + number + " grabs right chopstick.");
-//				status = EATING;
-//				waiter.release();
-//				eat();
-//				leftChopstick.release();
-////				System.out.println("Philosopher #" + number + " releases left chopstick.");
-//				rightChopstick.release();
-////				System.out.println("Philosopher #" + number + " releases right chopstick.");
-//				status = THINKING;
-//			}
-//			else {
-//				waiter.release();
-//			}
 		}
 	}
 	
 	public void eat() {
 		try {
-			int sleepTime = ThreadLocalRandom.current().nextInt(0, 500);
-//			System.out.println("Philosopher #" + number + " eats for " + sleepTime);
+			int sleepTime = ThreadLocalRandom.current().nextInt(500, 5000);
+			System.out.println("Philosopher #" + number + " eats for " + sleepTime);
 			Thread.sleep(sleepTime);
 		}
 		catch (Exception e) {
